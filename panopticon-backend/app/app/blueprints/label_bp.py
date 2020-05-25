@@ -4,7 +4,7 @@ from app.models import Polygon, User, ImageFile, Label, Task
 from flask_mongoengine.json import json_util
 
 
-label_bp = Blueprint('label_bp', __name__, url_prefix='/labels')
+label_bp = Blueprint('label_bp', __name__, url_prefix='/api/labels')
 
 @label_bp.route('/add', methods=["POST"])
 @jwt_required
@@ -71,20 +71,20 @@ def delete(label_dict=None, raw=False):
     if task in user.tasks:
         label = Label.objects(id=content["id"]).first()
         if label and label in task.labels:
-            label.delete()
+            task.labels.remove(label)
             task.save()
             return (jsonify(), 200) if not raw else None
     abort(404)
 
 
-@task_bp.route('/save', methods=["POST"])
+@label_bp.route('/save', methods=["POST"])
 @jwt_required
-def save(task_dict=None, raw=False):
+def save(label_dict=None, raw=False):
     response = []
-    content = task_dict.copy() if task_dict else request.json.copy()
-    user_id = task_dict["user_id"] if task_dict else get_jwt_identity()
+    content = label_dict.copy() if label_dict else request.json.copy()
+    user_id = label_dict["user_id"] if label_dict else get_jwt_identity()
     content["user_id"] = user_id
     if 'id' in content:
-        return add(label_dict=content, raw=raw)
-    else:
         return update(label_dict=content, raw=raw)
+    else:
+        return add(label_dict=content, raw=raw)

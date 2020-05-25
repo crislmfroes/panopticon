@@ -1,0 +1,7 @@
+FROM tiangolo/meinheld-gunicorn-flask:python3.6-alpine3.8
+
+COPY ./app /app
+
+ENV PORT 80
+
+RUN pip install --no-cache-dir -r /app/requirements.txt

@@ -29,12 +29,28 @@
             <v-list-item-title>Login</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link to="/register">
+          <v-list-item-action>
+            <v-icon>mdi-contact-mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Sign Up</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item link to="/task/register">
           <v-list-item-action>
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Register Task</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link to="/task/list">
+          <v-list-item-action>
+            <v-icon>mdi-contact-mail</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>List Tasks</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

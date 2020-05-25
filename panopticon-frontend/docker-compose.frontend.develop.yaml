@@ -1,0 +1,11 @@
+version: '2'
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile-develop
+        ports:
+            - "90:8080"
+        container_name: "panopticon_frontend"
+        volumes:
+            - .:/app

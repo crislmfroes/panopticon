@@ -1,0 +1,4 @@
+__pycache__
+uploads
+.env.local
+app/instance/config.local.cfg

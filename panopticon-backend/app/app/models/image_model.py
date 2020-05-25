@@ -2,7 +2,7 @@ from .engine import db_engine
 
 
 class ImageFile(db_engine.DynamicDocument):
-    name = db_engine.StringField(required=True, unique=True)
+    name = db_engine.StringField(required=True, unique=False)
     path = db_engine.StringField(required=True, unique=True)
     polygons = db_engine.ListField(db_engine.ReferenceField('Polygon'))
 

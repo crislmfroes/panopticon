@@ -3,7 +3,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from app.models import Polygon, User, ImageFile, Label
 from flask_mongoengine.json import json_util
 
-polygon_bp = Blueprint('polygon_bp', __name__, url_prefix='/polygons')
+polygon_bp = Blueprint('polygon_bp', __name__, url_prefix='/api/polygons')
 
 
 @polygon_bp.route('/add', methods=["POST"])
@@ -64,7 +64,7 @@ def delete(polygon_dict=None, raw=False):
         if image and image in task.images:
             polygon = Polygon.objects(id=content["id"]).first()
             if polygon and polygon in image.polygons:
-                polygon.delete()
+                image.polygons.remove(polygon)
                 image.save()
                 return (jsonify(), 200) if not raw else None
             abort(404)
@@ -88,14 +88,14 @@ def list_polygons(polygon_dict=None, raw=False):
     abort(403)
 
 
-@task_bp.route('/save', methods=["POST"])
+@polygon_bp.route('/save', methods=["POST"])
 @jwt_required
-def save(task_dict=None, raw=False):
+def save(polygon_dict=None, raw=False):
     response = []
-    content = task_dict.copy() if task_dict else request.json.copy()
-    user_id = task_dict["user_id"] if task_dict else get_jwt_identity()
+    content = polygon_dict.copy() if polygon_dict else request.json.copy()
+    user_id = polygon_dict["user_id"] if polygon_dict else get_jwt_identity()
     content["user_id"] = user_id
     if 'id' in content:
-        return add(polygon_dict=content, raw=raw)
-    else:
         return update(polygon_dict=content, raw=raw)
+    else:
+        return add(polygon_dict=content, raw=raw)

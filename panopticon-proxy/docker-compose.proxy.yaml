@@ -1,0 +1,7 @@
+version: '2'
+services:
+    proxy:
+        build: .
+        ports:
+            - "90:80"
+        container_name: 'panopticon_proxy'

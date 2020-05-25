@@ -1,0 +1,27 @@
+version: '2'
+services:
+    backend:
+        extends:
+            file: panopticon-backend/docker-compose.backend.yaml
+            service: web
+        volumes:
+            - uploads:/uploads:rw
+    database:
+        extends:
+            file: panopticon-db/docker-compose.db.yaml
+            service: mongo
+        volumes:
+            - mongo_volume:/data/db
+    database_admin:
+        extends:
+            file: panopticon-db/docker-compose.db.yaml
+            service: mongo-express
+    frontend:
+        extends:
+            file: panopticon-frontend/docker-compose.frontend.yaml
+            service: web
+        volumes:
+            - uploads:/usr/share/nginx/html/uploads:ro
+volumes:
+    uploads:
+    mongo_volume:
